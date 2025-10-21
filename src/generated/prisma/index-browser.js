@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.7.0
- * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+ * Prisma Client JS version: 6.17.1
+ * Query Engine version: 272a37d34178c2894197e17273bf937f25acdeac
  */
 Prisma.prismaVersion = {
-  client: "6.7.0",
-  engine: "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed"
+  client: "6.17.1",
+  engine: "272a37d34178c2894197e17273bf937f25acdeac"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -120,12 +120,13 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.SampleScalarFieldEnum = {
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
+  email: 'email',
   name: 'name',
-  code: 'code',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  role: 'role',
+  parentId: 'parentId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -133,14 +134,22 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.SampleOrderByRelevanceFieldEnum = {
-  name: 'name',
-  code: 'code'
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.Role = exports.$Enums.Role = {
+  PARENT: 'PARENT',
+  CHILD: 'CHILD'
+};
 
 exports.Prisma.ModelName = {
-  Sample: 'Sample'
+  User: 'User'
 };
 
 /**
