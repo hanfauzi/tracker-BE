@@ -101,6 +101,9 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   verifyToken: 'verifyToken',
   parentId: 'parentId',
+  pinHash: 'pinHash',
+  childCode: 'childCode',
+  codeExpiresAt: 'codeExpiresAt',
   createdAt: 'createdAt'
 };
 
@@ -173,13 +176,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id          String   @id @default(uuid())\n  email       String   @unique\n  name        String?\n  role        Role\n  phoneNumber String?  @map(\"phone_number\")\n  password    String?\n  verifyToken String?  @map(\"verify_token\")\n  parentId    String?\n  children    User[]   @relation(\"ParentChildren\")\n  parent      User?    @relation(\"ParentChildren\", fields: [parentId], references: [id])\n  createdAt   DateTime @default(now())\n\n  @@map(\"user\")\n}\n\nenum Role {\n  PARENT\n  CHILD\n}\n",
-  "inlineSchemaHash": "806b67a24974eeb893abadcf56d5f1b6a2984a16e38eacb9bf27d402ed61f1d0",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id            String    @id @default(uuid())\n  email         String?   @unique\n  name          String?\n  role          Role\n  phoneNumber   String?   @map(\"phone_number\")\n  password      String?\n  verifyToken   String?   @map(\"verify_token\")\n  parentId      String?   @map(\"parent_id\")\n  children      User[]    @relation(\"ParentChildren\")\n  parent        User?     @relation(\"ParentChildren\", fields: [parentId], references: [id])\n  pinHash       String?   @map(\"pin_hash\")\n  childCode     String?   @unique @map(\"child_code\")\n  codeExpiresAt DateTime? @map(\"code_expires_at\")\n  createdAt     DateTime  @default(now()) @map(\"created_at\")\n\n  @@map(\"user\")\n}\n\nenum Role {\n  PARENT\n  CHILD\n}\n",
+  "inlineSchemaHash": "26f05cf3b20018d8e32ea879b8d7ed23cd61bf991a538ef19f738ad65ced592b",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"phone_number\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verifyToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"verify_token\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"user\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"phone_number\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verifyToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"verify_token\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"parent_id\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"pinHash\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"pin_hash\"},{\"name\":\"childCode\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"child_code\"},{\"name\":\"codeExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"code_expires_at\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"}],\"dbName\":\"user\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

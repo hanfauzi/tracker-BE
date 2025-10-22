@@ -24,9 +24,22 @@ export class AuthController {
     res.status(200).json(result);
   };
 
-  parentLogin = async ( req: Request, res: Response) => {
-    const {email, password} = req.body
-    const result = await this.authService.parentLogin({email,password})
-    res.status(200).json(result)
-  }
+  parentLogin = async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+    const result = await this.authService.parentLogin({ email, password });
+    res.status(200).json(result);
+  };
+
+  createChild = async (req: Request, res: Response) => {
+    const { parentId } = res.locals.payload.id;
+    const { name } = req.body;
+    const result = await this.authService.createChild({ parentId, name });
+    res.status(200).json(result);
+  };
+
+  childLogin = async (req: Request, res: Response) => {
+    const { childCode, pin } = req.body;
+    const result = await this.authService.childLogin({ childCode, pin });
+    res.status(200).json(result);
+  };
 }
