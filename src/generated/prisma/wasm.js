@@ -97,6 +97,9 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   name: 'name',
   role: 'role',
+  phoneNumber: 'phoneNumber',
+  password: 'password',
+  verifyToken: 'verifyToken',
   parentId: 'parentId',
   createdAt: 'createdAt'
 };
@@ -152,7 +155,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
@@ -170,13 +173,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id        String   @id @default(cuid())\n  email     String?  @unique\n  name      String\n  role      Role\n  parentId  String?\n  children  User[]   @relation(\"ParentChildren\")\n  parent    User?    @relation(\"ParentChildren\", fields: [parentId], references: [id])\n  createdAt DateTime @default(now())\n}\n\nenum Role {\n  PARENT\n  CHILD\n}\n",
-  "inlineSchemaHash": "c76f24007f9ded9d5b369323309ee83eed47e3662c32f5d84cb2aa07391ca06c",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id          String   @id @default(uuid())\n  email       String   @unique\n  name        String?\n  role        Role\n  phoneNumber String?  @map(\"phone_number\")\n  password    String?\n  verifyToken String?  @map(\"verify_token\")\n  parentId    String?\n  children    User[]   @relation(\"ParentChildren\")\n  parent      User?    @relation(\"ParentChildren\", fields: [parentId], references: [id])\n  createdAt   DateTime @default(now())\n\n  @@map(\"user\")\n}\n\nenum Role {\n  PARENT\n  CHILD\n}\n",
+  "inlineSchemaHash": "806b67a24974eeb893abadcf56d5f1b6a2984a16e38eacb9bf27d402ed61f1d0",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"phone_number\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verifyToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"verify_token\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"user\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

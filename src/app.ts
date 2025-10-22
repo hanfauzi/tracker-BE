@@ -5,13 +5,14 @@ import express, {
   Request,
   Response,
   NextFunction,
-} from 'express';
-import cors from 'cors';
-import { PORT } from './config';
-import { MainRouter } from './routers/main.router';
-import { AppError } from './utils/app.error';
-import { NotFoundMiddleware } from './middlewares/not-found.middleware';
-import { ErrorHandlerMiddleware } from './middlewares/error-handler.middleware';
+} from "express";
+import cors from "cors";
+import { PORT } from "./config";
+import { MainRouter } from "./routers/main.router";
+import { AppError } from "./utils/app.error";
+import { NotFoundMiddleware } from "./middlewares/not-found.middleware";
+import { ErrorHandlerMiddleware } from "./middlewares/error-handler.middleware";
+import { AuthRouter } from "./modules/auth/auth.router";
 
 export default class App {
   private app: Express;
@@ -45,14 +46,16 @@ export default class App {
 
   private routes(): void {
     const mainRouter = new MainRouter();
+    const authRouter = new AuthRouter();
 
-    this.app.get('/api', (req: Request, res: Response) => {
+    this.app.get("/api", (req: Request, res: Response) => {
       res.send(
         `Hello, Purwadhika student 👋. Have fun working on your mini project ☺️`
       );
     });
 
     this.app.use(mainRouter.getRouter());
+    this.app.use('/api',authRouter.getRouter());
   }
 
   public start(): void {

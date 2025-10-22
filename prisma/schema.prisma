@@ -1,5 +1,3 @@
-
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -12,17 +10,22 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String?  @unique
-  name      String
-  role      Role
-  parentId  String?              
-  children  User[]   @relation("ParentChildren")
-  parent    User?    @relation("ParentChildren", fields: [parentId], references: [id])
-  createdAt DateTime @default(now())
+  id          String   @id @default(uuid())
+  email       String   @unique
+  name        String?
+  role        Role
+  phoneNumber String? @map("phone_number")
+  password    String?
+  verifyToken String?  @map("verify_token")
+  parentId    String?
+  children    User[]   @relation("ParentChildren")
+  parent      User?    @relation("ParentChildren", fields: [parentId], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@map("user")
 }
 
-enum Role { 
+enum Role {
   PARENT
   CHILD
 }
