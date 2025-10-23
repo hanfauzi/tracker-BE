@@ -39,7 +39,7 @@ export class AuthService {
       },
     });
 
-    return { message: "Account created succesfully! Please set your password" };
+    return { token, message: "Account created succesfully! Please set your password" };
   };
 
   parentSetPassword = async ({
