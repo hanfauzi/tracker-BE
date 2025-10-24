@@ -1,6 +1,8 @@
+import { Response } from "express";
 import { Role } from "../../generated/prisma";
 import { createToken } from "../../lib/jwt";
 import { generatePin } from "../../lib/pin";
+import { issueRefreshToken } from "../../lib/refresh";
 import { randomToken } from "../../lib/token";
 import { AppError } from "../../utils/app.error";
 import { PasswordService } from "../password/password.service";
@@ -117,7 +119,9 @@ export class AuthService {
       options: { expiresIn: "1hr" },
     });
 
-    return { accessToken };
+    const refreshToken = await issueRefreshToken(parent.id);
+
+    return { accessToken, refreshToken };
   };
 
   createChild = async ({ parentId, name }: CreateChildDTO) => {
