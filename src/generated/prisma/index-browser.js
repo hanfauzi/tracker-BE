@@ -132,6 +132,7 @@ exports.Prisma.UserScalarFieldEnum = {
   pinHash: 'pinHash',
   childCode: 'childCode',
   codeExpiresAt: 'codeExpiresAt',
+  isActive: 'isActive',
   createdAt: 'createdAt'
 };
 

@@ -23,6 +23,7 @@ model User {
   pinHash       String?   @map("pin_hash")
   childCode     String?   @unique @map("child_code")
   codeExpiresAt DateTime? @map("code_expires_at")
+  isActive      Boolean   @default(false) @map("is_actaive")
   createdAt     DateTime  @default(now()) @map("created_at")
 
   @@map("user")

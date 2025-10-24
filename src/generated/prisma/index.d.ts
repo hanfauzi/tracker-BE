@@ -929,6 +929,7 @@ export namespace Prisma {
     pinHash: string | null
     childCode: string | null
     codeExpiresAt: Date | null
+    isActive: boolean | null
     createdAt: Date | null
   }
 
@@ -944,6 +945,7 @@ export namespace Prisma {
     pinHash: string | null
     childCode: string | null
     codeExpiresAt: Date | null
+    isActive: boolean | null
     createdAt: Date | null
   }
 
@@ -959,6 +961,7 @@ export namespace Prisma {
     pinHash: number
     childCode: number
     codeExpiresAt: number
+    isActive: number
     createdAt: number
     _all: number
   }
@@ -976,6 +979,7 @@ export namespace Prisma {
     pinHash?: true
     childCode?: true
     codeExpiresAt?: true
+    isActive?: true
     createdAt?: true
   }
 
@@ -991,6 +995,7 @@ export namespace Prisma {
     pinHash?: true
     childCode?: true
     codeExpiresAt?: true
+    isActive?: true
     createdAt?: true
   }
 
@@ -1006,6 +1011,7 @@ export namespace Prisma {
     pinHash?: true
     childCode?: true
     codeExpiresAt?: true
+    isActive?: true
     createdAt?: true
     _all?: true
   }
@@ -1094,6 +1100,7 @@ export namespace Prisma {
     pinHash: string | null
     childCode: string | null
     codeExpiresAt: Date | null
+    isActive: boolean
     createdAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -1126,6 +1133,7 @@ export namespace Prisma {
     pinHash?: boolean
     childCode?: boolean
     codeExpiresAt?: boolean
+    isActive?: boolean
     createdAt?: boolean
     children?: boolean | User$childrenArgs<ExtArgs>
     parent?: boolean | User$parentArgs<ExtArgs>
@@ -1144,6 +1152,7 @@ export namespace Prisma {
     pinHash?: boolean
     childCode?: boolean
     codeExpiresAt?: boolean
+    isActive?: boolean
     createdAt?: boolean
     parent?: boolean | User$parentArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1160,6 +1169,7 @@ export namespace Prisma {
     pinHash?: boolean
     childCode?: boolean
     codeExpiresAt?: boolean
+    isActive?: boolean
     createdAt?: boolean
     parent?: boolean | User$parentArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1176,10 +1186,11 @@ export namespace Prisma {
     pinHash?: boolean
     childCode?: boolean
     codeExpiresAt?: boolean
+    isActive?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "role" | "phoneNumber" | "password" | "verifyToken" | "parentId" | "pinHash" | "childCode" | "codeExpiresAt" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "role" | "phoneNumber" | "password" | "verifyToken" | "parentId" | "pinHash" | "childCode" | "codeExpiresAt" | "isActive" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     children?: boolean | User$childrenArgs<ExtArgs>
     parent?: boolean | User$parentArgs<ExtArgs>
@@ -1210,6 +1221,7 @@ export namespace Prisma {
       pinHash: string | null
       childCode: string | null
       codeExpiresAt: Date | null
+      isActive: boolean
       createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -1647,6 +1659,7 @@ export namespace Prisma {
     readonly pinHash: FieldRef<"User", 'String'>
     readonly childCode: FieldRef<"User", 'String'>
     readonly codeExpiresAt: FieldRef<"User", 'DateTime'>
+    readonly isActive: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -2131,6 +2144,7 @@ export namespace Prisma {
     pinHash: 'pinHash',
     childCode: 'childCode',
     codeExpiresAt: 'codeExpiresAt',
+    isActive: 'isActive',
     createdAt: 'createdAt'
   };
 
@@ -2209,6 +2223,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -2240,6 +2261,7 @@ export namespace Prisma {
     pinHash?: StringNullableFilter<"User"> | string | null
     childCode?: StringNullableFilter<"User"> | string | null
     codeExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    isActive?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     children?: UserListRelationFilter
     parent?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -2257,6 +2279,7 @@ export namespace Prisma {
     pinHash?: SortOrderInput | SortOrder
     childCode?: SortOrderInput | SortOrder
     codeExpiresAt?: SortOrderInput | SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     children?: UserOrderByRelationAggregateInput
     parent?: UserOrderByWithRelationInput
@@ -2277,6 +2300,7 @@ export namespace Prisma {
     parentId?: StringNullableFilter<"User"> | string | null
     pinHash?: StringNullableFilter<"User"> | string | null
     codeExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    isActive?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     children?: UserListRelationFilter
     parent?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -2294,6 +2318,7 @@ export namespace Prisma {
     pinHash?: SortOrderInput | SortOrder
     childCode?: SortOrderInput | SortOrder
     codeExpiresAt?: SortOrderInput | SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -2315,6 +2340,7 @@ export namespace Prisma {
     pinHash?: StringNullableWithAggregatesFilter<"User"> | string | null
     childCode?: StringNullableWithAggregatesFilter<"User"> | string | null
     codeExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    isActive?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -2329,6 +2355,7 @@ export namespace Prisma {
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    isActive?: boolean
     createdAt?: Date | string
     children?: UserCreateNestedManyWithoutParentInput
     parent?: UserCreateNestedOneWithoutChildrenInput
@@ -2346,6 +2373,7 @@ export namespace Prisma {
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    isActive?: boolean
     createdAt?: Date | string
     children?: UserUncheckedCreateNestedManyWithoutParentInput
   }
@@ -2361,6 +2389,7 @@ export namespace Prisma {
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: UserUpdateManyWithoutParentNestedInput
     parent?: UserUpdateOneWithoutChildrenNestedInput
@@ -2378,6 +2407,7 @@ export namespace Prisma {
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: UserUncheckedUpdateManyWithoutParentNestedInput
   }
@@ -2394,6 +2424,7 @@ export namespace Prisma {
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    isActive?: boolean
     createdAt?: Date | string
   }
 
@@ -2408,6 +2439,7 @@ export namespace Prisma {
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -2423,6 +2455,7 @@ export namespace Prisma {
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -2474,6 +2507,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2517,6 +2555,7 @@ export namespace Prisma {
     pinHash?: SortOrder
     childCode?: SortOrder
     codeExpiresAt?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -2532,6 +2571,7 @@ export namespace Prisma {
     pinHash?: SortOrder
     childCode?: SortOrder
     codeExpiresAt?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -2547,6 +2587,7 @@ export namespace Prisma {
     pinHash?: SortOrder
     childCode?: SortOrder
     codeExpiresAt?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -2610,6 +2651,14 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2658,6 +2707,10 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -2746,6 +2799,11 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -2839,6 +2897,14 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2864,6 +2930,7 @@ export namespace Prisma {
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    isActive?: boolean
     createdAt?: Date | string
     children?: UserCreateNestedManyWithoutParentInput
   }
@@ -2879,6 +2946,7 @@ export namespace Prisma {
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    isActive?: boolean
     createdAt?: Date | string
     children?: UserUncheckedCreateNestedManyWithoutParentInput
   }
@@ -2904,6 +2972,7 @@ export namespace Prisma {
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    isActive?: boolean
     createdAt?: Date | string
     parent?: UserCreateNestedOneWithoutChildrenInput
   }
@@ -2920,6 +2989,7 @@ export namespace Prisma {
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    isActive?: boolean
     createdAt?: Date | string
   }
 
@@ -2959,6 +3029,7 @@ export namespace Prisma {
     pinHash?: StringNullableFilter<"User"> | string | null
     childCode?: StringNullableFilter<"User"> | string | null
     codeExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    isActive?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
   }
 
@@ -2984,6 +3055,7 @@ export namespace Prisma {
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: UserUpdateOneWithoutChildrenNestedInput
   }
@@ -3000,6 +3072,7 @@ export namespace Prisma {
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3014,6 +3087,7 @@ export namespace Prisma {
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    isActive?: boolean
     createdAt?: Date | string
   }
 
@@ -3028,6 +3102,7 @@ export namespace Prisma {
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: UserUpdateManyWithoutParentNestedInput
   }
@@ -3043,6 +3118,7 @@ export namespace Prisma {
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: UserUncheckedUpdateManyWithoutParentNestedInput
   }
@@ -3058,6 +3134,7 @@ export namespace Prisma {
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
