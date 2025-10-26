@@ -374,3 +374,27 @@
   "ip": "::1",
   "statusCode": 400
 }
+[2025-10-26 16:01:18] ERROR: POST /api/parent/create-child - jwt expired  {
+  "name": "TokenExpiredError",
+  "stack": "TokenExpiredError: jwt expired\n    at C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\node_modules\\jsonwebtoken\\verify.js:190:21\n    at getSecret (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\node_modules\\jsonwebtoken\\verify.js:97:14)\n    at Object.module.exports [as verify] (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\node_modules\\jsonwebtoken\\verify.js:101:10)\n    at C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:11:33\n    at Generator.next (<anonymous>)\n    at C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:8:71\n    at new Promise (<anonymous>)\n    at __awaiter (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:4:12)\n    at verifyToken (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:20:16)\n    at Layer.handleRequest (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\node_modules\\router\\lib\\layer.js:152:17)",
+  "path": "/api/parent/create-child",
+  "method": "POST",
+  "ip": "::1",
+  "statusCode": 401
+}
+[2025-10-26 16:01:35] ERROR: POST /api/parent/create-child - User role unauthorized access  {
+  "name": "AppError",
+  "stack": "AppError: User role unauthorized access\n    at new AppError (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\utils\\app.error.ts:14:11)\n    at Function.<anonymous> (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:25:17)\n    at Generator.next (<anonymous>)\n    at C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:8:71\n    at new Promise (<anonymous>)\n    at __awaiter (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:4:12)\n    at C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:20:70\n    at Layer.handleRequest (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\node_modules\\router\\lib\\route.js:157:13)\n    at C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:13:7",
+  "path": "/api/parent/create-child",
+  "method": "POST",
+  "ip": "::1",
+  "statusCode": 401
+}
+[2025-10-26 16:15:50] ERROR: POST /api/parent/create-child - jwt expired  {
+  "name": "TokenExpiredError",
+  "stack": "TokenExpiredError: jwt expired\n    at C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\node_modules\\jsonwebtoken\\verify.js:190:21\n    at getSecret (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\node_modules\\jsonwebtoken\\verify.js:97:14)\n    at Object.module.exports [as verify] (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\node_modules\\jsonwebtoken\\verify.js:101:10)\n    at C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:11:33\n    at Generator.next (<anonymous>)\n    at C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:8:71\n    at new Promise (<anonymous>)\n    at __awaiter (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:4:12)\n    at verifyToken (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\src\\middlewares\\jwt-verify.middleware.ts:20:16)\n    at Layer.handleRequest (C:\\Hanif (Penting)\\PURWADHIKA\\Project\\tracker-BE\\node_modules\\router\\lib\\layer.js:152:17)",
+  "path": "/api/parent/create-child",
+  "method": "POST",
+  "ip": "::1",
+  "statusCode": 401
+}
