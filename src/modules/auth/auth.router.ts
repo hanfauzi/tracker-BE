@@ -7,6 +7,7 @@ import { LoginDTO } from "./dto/login.dto";
 import { CreateChildDTO } from "./dto/create-child.dto";
 import { JwtVerify } from "../../middlewares/jwt-verify.middleware";
 import { LoginChildDTO } from "./dto/login-child.dto";
+import { PairingChildDTO } from "./dto/pairing-child.dto";
 
 export class AuthRouter {
   private router: Router;
@@ -46,6 +47,12 @@ export class AuthRouter {
       JwtVerify.verifyToken,
       JwtVerify.verifyRole(["PARENT"]),
       this.authController.createChild
+    );
+
+    this.router.patch(
+      "/child/pairing",
+      validateBody(PairingChildDTO),
+      this.authController.childPairing
     );
 
     this.router.post(

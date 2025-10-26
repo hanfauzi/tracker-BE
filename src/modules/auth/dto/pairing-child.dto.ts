@@ -1,8 +1,8 @@
 import { IsNotEmpty } from "class-validator";
 
-export class LoginChildDTO {
+export class PairingChildDTO {
   @IsNotEmpty()
-  familyCode!: string;
+  childCode!: string;
 
   @IsNotEmpty()
   pin!: string;

@@ -129,9 +129,12 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   verifyToken: 'verifyToken',
   parentId: 'parentId',
+  familyCode: 'familyCode',
   pinHash: 'pinHash',
   childCode: 'childCode',
   codeExpiresAt: 'codeExpiresAt',
+  failedPinAttempts: 'failedPinAttempts',
+  lockedUntil: 'lockedUntil',
   isActive: 'isActive',
   createdAt: 'createdAt'
 };

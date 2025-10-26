@@ -8,10 +8,12 @@ import { AppError } from "../../utils/app.error";
 import { PasswordService } from "../password/password.service";
 import prisma from "../prisma/prisma.service";
 import { CreateChildDTO } from "./dto/create-child.dto";
-import { LoginChildDTO } from "./dto/login-child.dto";
+import { PairingChildDTO } from "./dto/pairing-child.dto";
 import { LoginDTO } from "./dto/login.dto";
 import { RegisterDTO } from "./dto/register.dto";
 import { SetPasswordDTO } from "./dto/set-password.dto";
+import { LoginChildDTO } from "./dto/login-child.dto";
+import { generateFamCode } from "../../lib/fam-code";
 
 export class AuthService {
   private passwordService: PasswordService;
@@ -33,16 +35,20 @@ export class AuthService {
 
     const token = randomToken();
 
+    const famCode = generateFamCode();
+
     await prisma.user.create({
       data: {
         email: normalizedEmail,
         role: "PARENT",
         verifyToken: token,
+        familyCode: famCode,
         isActive: false,
       },
     });
 
     return {
+      famCode,
       token,
       message: "Account created succesfully! Please set your password",
     };
@@ -130,6 +136,10 @@ export class AuthService {
     const childCode = randomToken().slice(0, 16);
     const codeExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
+    if (!parentId) {
+      throw new AppError("ParentId must be provide!", 400);
+    }
+
     const child = await prisma.user.create({
       data: {
         name,
@@ -145,31 +155,68 @@ export class AuthService {
     return { ...child, pin };
   };
 
-  childLogin = async ({ childCode, pin }: LoginChildDTO) => {
+  childPairing = async ({ childCode, pin }: PairingChildDTO) => {
     const child = await prisma.user.findFirst({
       where: { childCode, role: Role.CHILD },
     });
 
     if (!child) {
-      throw new AppError("Invalid Code!", 401);
+      throw new AppError("Code must be provide!", 400);
     }
 
     if (child.codeExpiresAt && child.codeExpiresAt < new Date()) {
       throw new AppError("Code Expired!", 401);
     }
 
-    const childPin = await this.passwordService.comparePassword(
+    if (!child.pinHash) {
+      throw new AppError("Account not found!", 400);
+    }
+
+    const comparedPin = await this.passwordService.comparePassword(
       pin,
-      child.pinHash!
+      child.pinHash
     );
 
+    if (!comparedPin) {
+      throw new AppError("Pin is wrong!", 400);
+    }
     await prisma.user.update({
       where: { id: child.id },
       data: {
+        isActive: true,
         childCode: null,
         codeExpiresAt: null,
       },
     });
+
+    return { message: "Your account now active. You can login now!" };
+  };
+
+  childLogin = async ({ familyCode, pin }: LoginChildDTO) => {
+    const child = await prisma.user.findFirst({
+      where: {
+        parent: { is: { familyCode } },
+        role: Role.CHILD,
+        isActive: true,
+      },
+    });
+
+    if (!child) {
+      throw new AppError("Account not activated!", 400);
+    }
+
+    if (!child.pinHash) {
+      throw new AppError("Account not found!", 400);
+    }
+
+    const comparedPin = await this.passwordService.comparePassword(
+      pin,
+      child.pinHash
+    );
+
+    if (!comparedPin) {
+      throw new AppError("Pin is wrong!", 400);
+    }
 
     const payload = {
       id: child.id,
@@ -183,6 +230,8 @@ export class AuthService {
       options: { expiresIn: "1hr" },
     });
 
-    return { accessToken };
+    const refreshToken = await issueRefreshToken(child.id);
+
+    return { accessToken, refreshToken };
   };
 }
