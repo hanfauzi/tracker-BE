@@ -8,20 +8,23 @@ import { CreateChildDTO } from "./dto/create-child.dto";
 import { JwtVerify } from "../../middlewares/jwt-verify.middleware";
 import { LoginChildDTO } from "./dto/login-child.dto";
 import { PairingChildDTO } from "./dto/pairing-child.dto";
+import { Limiter } from "../../middlewares/limiter.middleware";
 
 export class AuthRouter {
   private router: Router;
-
+  private limiter: Limiter;
   private authController: AuthController;
 
   constructor() {
     this.router = Router();
+    this.limiter = new Limiter();
     this.authController = new AuthController();
     this.initializedRoutes();
   }
   private initializedRoutes = () => {
     this.router.post(
       "/parent/register",
+      this.limiter.limiter,
       validateBody(RegisterDTO),
       this.authController.parentRegister
     );
@@ -34,6 +37,7 @@ export class AuthRouter {
 
     this.router.post(
       "/parent/login",
+      this.limiter.loginParentLimiter,
       validateBody(LoginDTO),
       this.authController.parentLogin
     );
@@ -43,20 +47,23 @@ export class AuthRouter {
 
     this.router.post(
       "/parent/create-child",
-      validateBody(CreateChildDTO),
+      this.limiter.limiter,
       JwtVerify.verifyToken,
       JwtVerify.verifyRole(["PARENT"]),
+      validateBody(CreateChildDTO),
       this.authController.createChild
     );
 
     this.router.patch(
       "/child/pairing",
+      this.limiter.pairingLimiter,
       validateBody(PairingChildDTO),
       this.authController.childPairing
     );
 
     this.router.post(
       "/child/login",
+      this.limiter.loginChildLimiter,
       validateBody(LoginChildDTO),
       this.authController.childLogin
     );
