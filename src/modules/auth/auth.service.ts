@@ -1,6 +1,8 @@
+import { Response } from "express";
 import { Role } from "../../generated/prisma";
 import { createToken } from "../../lib/jwt";
 import { generatePin } from "../../lib/pin";
+import { issueRefreshToken } from "../../lib/refresh";
 import { randomToken } from "../../lib/token";
 import { AppError } from "../../utils/app.error";
 import { PasswordService } from "../password/password.service";
@@ -36,10 +38,14 @@ export class AuthService {
         email: normalizedEmail,
         role: "PARENT",
         verifyToken: token,
+        isActive: false,
       },
     });
 
-    return { token, message: "Account created succesfully! Please set your password" };
+    return {
+      token,
+      message: "Account created succesfully! Please set your password",
+    };
   };
 
   parentSetPassword = async ({
@@ -61,7 +67,13 @@ export class AuthService {
     const hashedPassword = await this.passwordService.hashPassword(password);
     await prisma.user.update({
       where: { id: parent.id },
-      data: { name, phoneNumber, password: hashedPassword, verifyToken: null },
+      data: {
+        name,
+        phoneNumber,
+        password: hashedPassword,
+        verifyToken: null,
+        isActive: true,
+      },
     });
 
     return { message: "Your account has been set. You can login now!" };
@@ -77,7 +89,7 @@ export class AuthService {
     }
 
     const parent = await prisma.user.findUnique({
-      where: { email: normalizedEmail },
+      where: { email: normalizedEmail, isActive: true },
     });
 
     if (!parent) {
@@ -107,7 +119,9 @@ export class AuthService {
       options: { expiresIn: "1hr" },
     });
 
-    return { accessToken };
+    const refreshToken = await issueRefreshToken(parent.id);
+
+    return { accessToken, refreshToken };
   };
 
   createChild = async ({ parentId, name }: CreateChildDTO) => {
@@ -169,6 +183,6 @@ export class AuthService {
       options: { expiresIn: "1hr" },
     });
 
-    return { accessToken}
+    return { accessToken };
   };
 }

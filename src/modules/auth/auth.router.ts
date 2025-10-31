@@ -37,6 +37,9 @@ export class AuthRouter {
       this.authController.parentLogin
     );
 
+    this.router.post("/auth/refresh", this.authController.refresh);
+    this.router.post("/auth/logout", this.authController.logout);
+
     this.router.post(
       "/parent/create-child",
       validateBody(CreateChildDTO),

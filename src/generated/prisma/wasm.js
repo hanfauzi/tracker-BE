@@ -104,6 +104,16 @@ exports.Prisma.UserScalarFieldEnum = {
   pinHash: 'pinHash',
   childCode: 'childCode',
   codeExpiresAt: 'codeExpiresAt',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
   createdAt: 'createdAt'
 };
 
@@ -127,7 +137,8 @@ exports.Role = exports.$Enums.Role = {
 };
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  RefreshToken: 'RefreshToken'
 };
 /**
  * Create the Client
@@ -176,13 +187,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id            String    @id @default(uuid())\n  email         String?   @unique\n  name          String?\n  role          Role\n  phoneNumber   String?   @map(\"phone_number\")\n  password      String?\n  verifyToken   String?   @map(\"verify_token\")\n  parentId      String?   @map(\"parent_id\")\n  children      User[]    @relation(\"ParentChildren\")\n  parent        User?     @relation(\"ParentChildren\", fields: [parentId], references: [id])\n  pinHash       String?   @map(\"pin_hash\")\n  childCode     String?   @unique @map(\"child_code\")\n  codeExpiresAt DateTime? @map(\"code_expires_at\")\n  createdAt     DateTime  @default(now()) @map(\"created_at\")\n\n  @@map(\"user\")\n}\n\nenum Role {\n  PARENT\n  CHILD\n}\n",
-  "inlineSchemaHash": "26f05cf3b20018d8e32ea879b8d7ed23cd61bf991a538ef19f738ad65ced592b",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id            String         @id @default(uuid())\n  email         String?        @unique\n  name          String?\n  role          Role\n  phoneNumber   String?        @map(\"phone_number\")\n  password      String?\n  verifyToken   String?        @map(\"verify_token\")\n  parentId      String?        @map(\"parent_id\")\n  children      User[]         @relation(\"ParentChildren\")\n  parent        User?          @relation(\"ParentChildren\", fields: [parentId], references: [id])\n  pinHash       String?        @map(\"pin_hash\")\n  childCode     String?        @unique @map(\"child_code\")\n  codeExpiresAt DateTime?      @map(\"code_expires_at\")\n  isActive      Boolean        @default(false) @map(\"is_actaive\")\n  createdAt     DateTime       @default(now()) @map(\"created_at\")\n  RefreshToken  RefreshToken[]\n\n  @@map(\"user\")\n}\n\nenum Role {\n  PARENT\n  CHILD\n}\n\nmodel RefreshToken {\n  id        String    @id @default(uuid())\n  userId    String\n  tokenHash String    @unique\n  expiresAt DateTime\n  revokedAt DateTime?\n  createdAt DateTime  @default(now())\n  user      User      @relation(fields: [userId], references: [id])\n}\n",
+  "inlineSchemaHash": "966decec3fb15a8af014e0f0f682884daf5771f454dab132859b64023ee18aa3",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"phone_number\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verifyToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"verify_token\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"parent_id\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"pinHash\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"pin_hash\"},{\"name\":\"childCode\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"child_code\"},{\"name\":\"codeExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"code_expires_at\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"}],\"dbName\":\"user\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"phone_number\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verifyToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"verify_token\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"parent_id\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentChildren\"},{\"name\":\"pinHash\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"pin_hash\"},{\"name\":\"childCode\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"child_code\"},{\"name\":\"codeExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"code_expires_at\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_actaive\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"RefreshToken\",\"kind\":\"object\",\"type\":\"RefreshToken\",\"relationName\":\"RefreshTokenToUser\"}],\"dbName\":\"user\"},\"RefreshToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tokenHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"revokedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RefreshTokenToUser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

@@ -13,7 +13,7 @@ import { AppError } from "./utils/app.error";
 import { NotFoundMiddleware } from "./middlewares/not-found.middleware";
 import { ErrorHandlerMiddleware } from "./middlewares/error-handler.middleware";
 import { AuthRouter } from "./modules/auth/auth.router";
-
+import cookieParser from "cookie-parser";
 export default class App {
   private app: Express;
 
@@ -28,6 +28,7 @@ export default class App {
     this.app.use(cors());
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
+    this.app.use(cookieParser())
   }
 
   private handleError(): void {
