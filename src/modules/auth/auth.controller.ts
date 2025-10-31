@@ -51,7 +51,7 @@ export class AuthController {
     const raw = req.cookies?.refresh_token as string | undefined;
     if (!raw) throw new AppError("No refresh token", 401);
 
-    const row = await verifyRefreshToken(raw); 
+    const row = await verifyRefreshToken(raw);
     if (!row) throw new AppError("Invalid/expired refresh token", 401);
 
     await revokeRefreshToken(raw);
@@ -60,7 +60,7 @@ export class AuthController {
     const accessToken = createToken({
       payload: { id: row.userId },
       secretKey: process.env.JWT_SECRET_KEY!,
-      options: { expiresIn: "15m" },
+      options: { expiresIn: "1hr" },
     });
 
     res.cookie("refresh_token", newRefresh, {
@@ -82,15 +82,32 @@ export class AuthController {
   };
 
   createChild = async (req: Request, res: Response) => {
-    const { parentId } = res.locals.payload.id;
+    const  parentId  = res.locals.payload.id;
     const { name } = req.body;
     const result = await this.authService.createChild({ parentId, name });
     res.status(200).json(result);
   };
 
-  childLogin = async (req: Request, res: Response) => {
+  childPairing = async (req: Request, res: Response) => {
     const { childCode, pin } = req.body;
-    const result = await this.authService.childLogin({ childCode, pin });
+    const result = await this.authService.childPairing({ childCode, pin });
     res.status(200).json(result);
+  };
+
+  childLogin = async (req: Request, res: Response) => {
+    const { familyCode, pin } = req.body;
+    const { accessToken, refreshToken } = await this.authService.childLogin({
+      familyCode,
+      pin,
+    });
+
+    res.cookie("refresh_token", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/api/auth/refresh",
+    });
+    res.status(200).json({ accessToken });
   };
 }

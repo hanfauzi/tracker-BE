@@ -1013,8 +1013,18 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    failedPinAttempts: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    failedPinAttempts: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1026,9 +1036,12 @@ export namespace Prisma {
     password: string | null
     verifyToken: string | null
     parentId: string | null
+    familyCode: string | null
     pinHash: string | null
     childCode: string | null
     codeExpiresAt: Date | null
+    failedPinAttempts: number | null
+    lockedUntil: Date | null
     isActive: boolean | null
     createdAt: Date | null
   }
@@ -1042,9 +1055,12 @@ export namespace Prisma {
     password: string | null
     verifyToken: string | null
     parentId: string | null
+    familyCode: string | null
     pinHash: string | null
     childCode: string | null
     codeExpiresAt: Date | null
+    failedPinAttempts: number | null
+    lockedUntil: Date | null
     isActive: boolean | null
     createdAt: Date | null
   }
@@ -1058,14 +1074,25 @@ export namespace Prisma {
     password: number
     verifyToken: number
     parentId: number
+    familyCode: number
     pinHash: number
     childCode: number
     codeExpiresAt: number
+    failedPinAttempts: number
+    lockedUntil: number
     isActive: number
     createdAt: number
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    failedPinAttempts?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    failedPinAttempts?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -1076,9 +1103,12 @@ export namespace Prisma {
     password?: true
     verifyToken?: true
     parentId?: true
+    familyCode?: true
     pinHash?: true
     childCode?: true
     codeExpiresAt?: true
+    failedPinAttempts?: true
+    lockedUntil?: true
     isActive?: true
     createdAt?: true
   }
@@ -1092,9 +1122,12 @@ export namespace Prisma {
     password?: true
     verifyToken?: true
     parentId?: true
+    familyCode?: true
     pinHash?: true
     childCode?: true
     codeExpiresAt?: true
+    failedPinAttempts?: true
+    lockedUntil?: true
     isActive?: true
     createdAt?: true
   }
@@ -1108,9 +1141,12 @@ export namespace Prisma {
     password?: true
     verifyToken?: true
     parentId?: true
+    familyCode?: true
     pinHash?: true
     childCode?: true
     codeExpiresAt?: true
+    failedPinAttempts?: true
+    lockedUntil?: true
     isActive?: true
     createdAt?: true
     _all?: true
@@ -1154,6 +1190,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -1184,6 +1232,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -1197,12 +1247,17 @@ export namespace Prisma {
     password: string | null
     verifyToken: string | null
     parentId: string | null
+    familyCode: string | null
     pinHash: string | null
     childCode: string | null
     codeExpiresAt: Date | null
+    failedPinAttempts: number
+    lockedUntil: Date | null
     isActive: boolean
     createdAt: Date
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -1230,9 +1285,12 @@ export namespace Prisma {
     password?: boolean
     verifyToken?: boolean
     parentId?: boolean
+    familyCode?: boolean
     pinHash?: boolean
     childCode?: boolean
     codeExpiresAt?: boolean
+    failedPinAttempts?: boolean
+    lockedUntil?: boolean
     isActive?: boolean
     createdAt?: boolean
     children?: boolean | User$childrenArgs<ExtArgs>
@@ -1250,9 +1308,12 @@ export namespace Prisma {
     password?: boolean
     verifyToken?: boolean
     parentId?: boolean
+    familyCode?: boolean
     pinHash?: boolean
     childCode?: boolean
     codeExpiresAt?: boolean
+    failedPinAttempts?: boolean
+    lockedUntil?: boolean
     isActive?: boolean
     createdAt?: boolean
     parent?: boolean | User$parentArgs<ExtArgs>
@@ -1267,9 +1328,12 @@ export namespace Prisma {
     password?: boolean
     verifyToken?: boolean
     parentId?: boolean
+    familyCode?: boolean
     pinHash?: boolean
     childCode?: boolean
     codeExpiresAt?: boolean
+    failedPinAttempts?: boolean
+    lockedUntil?: boolean
     isActive?: boolean
     createdAt?: boolean
     parent?: boolean | User$parentArgs<ExtArgs>
@@ -1284,14 +1348,17 @@ export namespace Prisma {
     password?: boolean
     verifyToken?: boolean
     parentId?: boolean
+    familyCode?: boolean
     pinHash?: boolean
     childCode?: boolean
     codeExpiresAt?: boolean
+    failedPinAttempts?: boolean
+    lockedUntil?: boolean
     isActive?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "role" | "phoneNumber" | "password" | "verifyToken" | "parentId" | "pinHash" | "childCode" | "codeExpiresAt" | "isActive" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "role" | "phoneNumber" | "password" | "verifyToken" | "parentId" | "familyCode" | "pinHash" | "childCode" | "codeExpiresAt" | "failedPinAttempts" | "lockedUntil" | "isActive" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     children?: boolean | User$childrenArgs<ExtArgs>
     parent?: boolean | User$parentArgs<ExtArgs>
@@ -1321,9 +1388,12 @@ export namespace Prisma {
       password: string | null
       verifyToken: string | null
       parentId: string | null
+      familyCode: string | null
       pinHash: string | null
       childCode: string | null
       codeExpiresAt: Date | null
+      failedPinAttempts: number
+      lockedUntil: Date | null
       isActive: boolean
       createdAt: Date
     }, ExtArgs["result"]["user"]>
@@ -1760,9 +1830,12 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly verifyToken: FieldRef<"User", 'String'>
     readonly parentId: FieldRef<"User", 'String'>
+    readonly familyCode: FieldRef<"User", 'String'>
     readonly pinHash: FieldRef<"User", 'String'>
     readonly childCode: FieldRef<"User", 'String'>
     readonly codeExpiresAt: FieldRef<"User", 'DateTime'>
+    readonly failedPinAttempts: FieldRef<"User", 'Int'>
+    readonly lockedUntil: FieldRef<"User", 'DateTime'>
     readonly isActive: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
@@ -3340,9 +3413,12 @@ export namespace Prisma {
     password: 'password',
     verifyToken: 'verifyToken',
     parentId: 'parentId',
+    familyCode: 'familyCode',
     pinHash: 'pinHash',
     childCode: 'childCode',
     codeExpiresAt: 'codeExpiresAt',
+    failedPinAttempts: 'failedPinAttempts',
+    lockedUntil: 'lockedUntil',
     isActive: 'isActive',
     createdAt: 'createdAt'
   };
@@ -3434,13 +3510,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -3451,6 +3520,27 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -3469,9 +3559,12 @@ export namespace Prisma {
     password?: StringNullableFilter<"User"> | string | null
     verifyToken?: StringNullableFilter<"User"> | string | null
     parentId?: StringNullableFilter<"User"> | string | null
+    familyCode?: StringNullableFilter<"User"> | string | null
     pinHash?: StringNullableFilter<"User"> | string | null
     childCode?: StringNullableFilter<"User"> | string | null
     codeExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    failedPinAttempts?: IntFilter<"User"> | number
+    lockedUntil?: DateTimeNullableFilter<"User"> | Date | string | null
     isActive?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     children?: UserListRelationFilter
@@ -3488,9 +3581,12 @@ export namespace Prisma {
     password?: SortOrderInput | SortOrder
     verifyToken?: SortOrderInput | SortOrder
     parentId?: SortOrderInput | SortOrder
+    familyCode?: SortOrderInput | SortOrder
     pinHash?: SortOrderInput | SortOrder
     childCode?: SortOrderInput | SortOrder
     codeExpiresAt?: SortOrderInput | SortOrder
+    failedPinAttempts?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     children?: UserOrderByRelationAggregateInput
@@ -3501,6 +3597,7 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    familyCode?: string
     childCode?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
@@ -3513,12 +3610,14 @@ export namespace Prisma {
     parentId?: StringNullableFilter<"User"> | string | null
     pinHash?: StringNullableFilter<"User"> | string | null
     codeExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    failedPinAttempts?: IntFilter<"User"> | number
+    lockedUntil?: DateTimeNullableFilter<"User"> | Date | string | null
     isActive?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     children?: UserListRelationFilter
     parent?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     RefreshToken?: RefreshTokenListRelationFilter
-  }, "id" | "email" | "childCode">
+  }, "id" | "email" | "familyCode" | "childCode">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -3529,14 +3628,19 @@ export namespace Prisma {
     password?: SortOrderInput | SortOrder
     verifyToken?: SortOrderInput | SortOrder
     parentId?: SortOrderInput | SortOrder
+    familyCode?: SortOrderInput | SortOrder
     pinHash?: SortOrderInput | SortOrder
     childCode?: SortOrderInput | SortOrder
     codeExpiresAt?: SortOrderInput | SortOrder
+    failedPinAttempts?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -3551,9 +3655,12 @@ export namespace Prisma {
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
     verifyToken?: StringNullableWithAggregatesFilter<"User"> | string | null
     parentId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    familyCode?: StringNullableWithAggregatesFilter<"User"> | string | null
     pinHash?: StringNullableWithAggregatesFilter<"User"> | string | null
     childCode?: StringNullableWithAggregatesFilter<"User"> | string | null
     codeExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    failedPinAttempts?: IntWithAggregatesFilter<"User"> | number
+    lockedUntil?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -3626,9 +3733,12 @@ export namespace Prisma {
     phoneNumber?: string | null
     password?: string | null
     verifyToken?: string | null
+    familyCode?: string | null
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    failedPinAttempts?: number
+    lockedUntil?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     children?: UserCreateNestedManyWithoutParentInput
@@ -3645,9 +3755,12 @@ export namespace Prisma {
     password?: string | null
     verifyToken?: string | null
     parentId?: string | null
+    familyCode?: string | null
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    failedPinAttempts?: number
+    lockedUntil?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     children?: UserUncheckedCreateNestedManyWithoutParentInput
@@ -3662,9 +3775,12 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: UserUpdateManyWithoutParentNestedInput
@@ -3681,9 +3797,12 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: UserUncheckedUpdateManyWithoutParentNestedInput
@@ -3699,9 +3818,12 @@ export namespace Prisma {
     password?: string | null
     verifyToken?: string | null
     parentId?: string | null
+    familyCode?: string | null
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    failedPinAttempts?: number
+    lockedUntil?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
   }
@@ -3714,9 +3836,12 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3730,9 +3855,12 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3847,6 +3975,17 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -3902,11 +4041,18 @@ export namespace Prisma {
     password?: SortOrder
     verifyToken?: SortOrder
     parentId?: SortOrder
+    familyCode?: SortOrder
     pinHash?: SortOrder
     childCode?: SortOrder
     codeExpiresAt?: SortOrder
+    failedPinAttempts?: SortOrder
+    lockedUntil?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    failedPinAttempts?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -3918,9 +4064,12 @@ export namespace Prisma {
     password?: SortOrder
     verifyToken?: SortOrder
     parentId?: SortOrder
+    familyCode?: SortOrder
     pinHash?: SortOrder
     childCode?: SortOrder
     codeExpiresAt?: SortOrder
+    failedPinAttempts?: SortOrder
+    lockedUntil?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
   }
@@ -3934,11 +4083,18 @@ export namespace Prisma {
     password?: SortOrder
     verifyToken?: SortOrder
     parentId?: SortOrder
+    familyCode?: SortOrder
     pinHash?: SortOrder
     childCode?: SortOrder
     codeExpiresAt?: SortOrder
+    failedPinAttempts?: SortOrder
+    lockedUntil?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    failedPinAttempts?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -3999,6 +4155,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -4103,6 +4275,14 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -4239,6 +4419,17 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -4270,17 +4461,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -4335,6 +4515,33 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -4365,9 +4572,12 @@ export namespace Prisma {
     phoneNumber?: string | null
     password?: string | null
     verifyToken?: string | null
+    familyCode?: string | null
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    failedPinAttempts?: number
+    lockedUntil?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     children?: UserCreateNestedManyWithoutParentInput
@@ -4382,9 +4592,12 @@ export namespace Prisma {
     phoneNumber?: string | null
     password?: string | null
     verifyToken?: string | null
+    familyCode?: string | null
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    failedPinAttempts?: number
+    lockedUntil?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     children?: UserUncheckedCreateNestedManyWithoutParentInput
@@ -4409,9 +4622,12 @@ export namespace Prisma {
     phoneNumber?: string | null
     password?: string | null
     verifyToken?: string | null
+    familyCode?: string | null
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    failedPinAttempts?: number
+    lockedUntil?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     parent?: UserCreateNestedOneWithoutChildrenInput
@@ -4427,9 +4643,12 @@ export namespace Prisma {
     password?: string | null
     verifyToken?: string | null
     parentId?: string | null
+    familyCode?: string | null
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    failedPinAttempts?: number
+    lockedUntil?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     RefreshToken?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -4494,9 +4713,12 @@ export namespace Prisma {
     password?: StringNullableFilter<"User"> | string | null
     verifyToken?: StringNullableFilter<"User"> | string | null
     parentId?: StringNullableFilter<"User"> | string | null
+    familyCode?: StringNullableFilter<"User"> | string | null
     pinHash?: StringNullableFilter<"User"> | string | null
     childCode?: StringNullableFilter<"User"> | string | null
     codeExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    failedPinAttempts?: IntFilter<"User"> | number
+    lockedUntil?: DateTimeNullableFilter<"User"> | Date | string | null
     isActive?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
   }
@@ -4520,9 +4742,12 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: UserUpdateOneWithoutChildrenNestedInput
@@ -4538,9 +4763,12 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     RefreshToken?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -4582,9 +4810,12 @@ export namespace Prisma {
     phoneNumber?: string | null
     password?: string | null
     verifyToken?: string | null
+    familyCode?: string | null
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    failedPinAttempts?: number
+    lockedUntil?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     children?: UserCreateNestedManyWithoutParentInput
@@ -4600,9 +4831,12 @@ export namespace Prisma {
     password?: string | null
     verifyToken?: string | null
     parentId?: string | null
+    familyCode?: string | null
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    failedPinAttempts?: number
+    lockedUntil?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     children?: UserUncheckedCreateNestedManyWithoutParentInput
@@ -4632,9 +4866,12 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: UserUpdateManyWithoutParentNestedInput
@@ -4650,9 +4887,12 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: UserUncheckedUpdateManyWithoutParentNestedInput
@@ -4666,9 +4906,12 @@ export namespace Prisma {
     phoneNumber?: string | null
     password?: string | null
     verifyToken?: string | null
+    familyCode?: string | null
     pinHash?: string | null
     childCode?: string | null
     codeExpiresAt?: Date | string | null
+    failedPinAttempts?: number
+    lockedUntil?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
   }
@@ -4689,9 +4932,12 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: UserUpdateManyWithoutParentNestedInput
@@ -4706,9 +4952,12 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: UserUncheckedUpdateManyWithoutParentNestedInput
@@ -4723,9 +4972,12 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     verifyToken?: NullableStringFieldUpdateOperationsInput | string | null
+    familyCode?: NullableStringFieldUpdateOperationsInput | string | null
     pinHash?: NullableStringFieldUpdateOperationsInput | string | null
     childCode?: NullableStringFieldUpdateOperationsInput | string | null
     codeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedPinAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
