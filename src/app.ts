@@ -29,6 +29,7 @@ export default class App {
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
     this.app.use(cookieParser())
+    this.app.set("trust proxy", 1);
   }
 
   private handleError(): void {

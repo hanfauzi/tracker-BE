@@ -90,8 +90,8 @@ export class AuthController {
 
   childPairing = async (req: Request, res: Response) => {
     const { childCode, pin } = req.body;
-    const result = await this.authService.childPairing({ childCode, pin });
-    res.status(200).json(result);
+    const {accessToken, message} = await this.authService.childPairing({ childCode, pin });
+    res.status(200).json({accessToken, message});
   };
 
   childLogin = async (req: Request, res: Response) => {
