@@ -135,7 +135,7 @@ export class AuthService {
     const accessToken = createToken({
       payload,
       secretKey: process.env.JWT_SECRET_KEY!,
-      options: { expiresIn: "1hr" },
+      options: { expiresIn: "15s" },
     });
 
     const refreshToken = await issueRefreshToken(parent.id);

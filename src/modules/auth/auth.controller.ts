@@ -7,6 +7,7 @@ import {
   verifyRefreshToken,
 } from "../../lib/refresh";
 import { createToken } from "../../lib/jwt";
+import prisma from "../prisma/prisma.service";
 
 export class AuthController {
   private authService: AuthService;
@@ -48,22 +49,20 @@ export class AuthController {
   };
 
   refresh = async (req: Request, res: Response) => {
-    const raw = req.cookies?.refresh_token as string | undefined;
-    if (!raw) throw new AppError("No refresh token", 401);
+    const plain = req.cookies?.refresh_token;
+    if (!plain) throw new AppError("No refresh token", 401);
 
-    const row = await verifyRefreshToken(raw);
-    if (!row) throw new AppError("Invalid/expired refresh token", 401);
+    const rt = await verifyRefreshToken(plain);
+    if (!rt) throw new AppError("Invalid or expired refresh token", 401);
 
-    await revokeRefreshToken(raw);
-    const newRefresh = await issueRefreshToken(row.userId);
+    const user = await prisma.user.findUnique({ where: { id: rt.userId } });
+    if (!user || !user.isActive)
+      throw new AppError("User not found or inactive", 401);
 
-    const accessToken = createToken({
-      payload: { id: row.userId },
-      secretKey: process.env.JWT_SECRET_KEY!,
-      options: { expiresIn: "1hr" },
-    });
+    await revokeRefreshToken(plain);
+    const newPlain = await issueRefreshToken(user.id);
 
-    res.cookie("refresh_token", newRefresh, {
+    res.cookie("refresh_token", newPlain, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -71,7 +70,20 @@ export class AuthController {
       path: "/api/auth/refresh",
     });
 
-    res.status(200).json({ accessToken });
+    const payload = {
+      id: user.id,
+      role: user.role,
+      name: user.name ?? undefined,
+    };
+    const accessToken = createToken({
+      payload,
+      secretKey: process.env.JWT_SECRET_KEY!,
+      options: { expiresIn: "1h" },
+    });
+
+    return res.json({
+      accessToken,
+    });
   };
 
   logout = async (req: Request, res: Response) => {
@@ -82,7 +94,7 @@ export class AuthController {
   };
 
   createChild = async (req: Request, res: Response) => {
-    const  parentId  = res.locals.payload.id;
+    const parentId = res.locals.payload.id;
     const { name } = req.body;
     const result = await this.authService.createChild({ parentId, name });
     res.status(200).json(result);
@@ -90,8 +102,11 @@ export class AuthController {
 
   childPairing = async (req: Request, res: Response) => {
     const { childCode, pin } = req.body;
-    const {accessToken, message} = await this.authService.childPairing({ childCode, pin });
-    res.status(200).json({accessToken, message});
+    const { accessToken, message } = await this.authService.childPairing({
+      childCode,
+      pin,
+    });
+    res.status(200).json({ accessToken, message });
   };
 
   childLogin = async (req: Request, res: Response) => {
